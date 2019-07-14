@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "esnext"
+    ],
+    "allowJs": false,
+    "outDir": "./cli",
+    "rootDir": "./src",
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": [
+        "./styles/*"
+      ]
+    },
+    "types": [
+      "node"
+    ],
+    "esModuleInterop": true,
+  }
+}
