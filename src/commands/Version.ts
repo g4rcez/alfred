@@ -10,9 +10,10 @@ export default async function Version(mode: VersionUpgrade = "patch") {
 			const newVersion = versionUpdate(packageJson.version, mode) as string;
 			setPackageJson(JSON.stringify({ ...packageJson, version: newVersion }, null, 1));
 			const message = `Update to version: ${newVersion}`;
-			Promise.all([Git.add(), Git.commit(message), Git.tag(newVersion, "v"), Git.push(newVersion)])
-				.then((ok) => console.log(ok))
-				.catch((err) => console.log("ERROR", err));
+			await Git.add();
+			await Git.commit(message);
+			await Git.tag(newVersion, "v");
+			await Git.push(newVersion);
 		} else {
 			console.log("Commita os arquivos aí");
 		}
