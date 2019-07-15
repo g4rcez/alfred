@@ -26,7 +26,9 @@ function Version(mode) {
             var newVersion = versionUpdate_1.default(packageJson.version, mode);
             files_1.setPackageJson(JSON.stringify(__assign({}, packageJson, { version: newVersion }), null, 1));
             var message = "Update to version: " + newVersion;
-            Promise.all([github_1.default.add(), github_1.default.commit(message), github_1.default.tag(newVersion, "v"), github_1.default.push(newVersion)]);
+            Promise.all([github_1.default.add(), github_1.default.commit(message), github_1.default.tag(newVersion, "v"), github_1.default.push(newVersion)])
+                .then(function (e) { return console.log(e); })
+                .catch(function (e) { return console.log("ERROR", e); });
         }
         console.log("Commita os arquivos aí");
     });
