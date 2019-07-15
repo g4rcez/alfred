@@ -5,9 +5,10 @@ const add = async () => await $("git add .");
 const countStash = async () => {
 	try {
 		const stdout = await $("git status --porcelain");
-		console.log("TEST STASH", typeof stdout);
 		return stdout;
-	} catch (error) {}
+	} catch (error) {
+		return [false, ""];
+	}
 };
 
 const commit = async (msg: string) => await $(`git commit -m "${msg}"`);
