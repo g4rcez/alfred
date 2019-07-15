@@ -55,7 +55,6 @@ function Github(user, cmd) {
                     response = _a.sent();
                     spin.stop();
                     console.log(response.data);
-                    console.log(response.headers);
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _a.sent();
