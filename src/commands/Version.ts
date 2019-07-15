@@ -1,8 +1,9 @@
 import versionUpdate, { VersionUpgrade } from "../utils/versionUpdate";
 import { getPackageJson, setPackageJson } from "../utils/files";
 import Git from "../utils/github";
-export default function Version(mode: VersionUpgrade = "patch") {
-	return Git.countStash().then((e: any) => {
+export default async function Version(mode: VersionUpgrade = "patch") {
+	try {
+		const e: any = await Git.countStash();
 		const content = e[1];
 		if (content === "") {
 			const packageJson = JSON.parse(getPackageJson());
@@ -10,9 +11,10 @@ export default function Version(mode: VersionUpgrade = "patch") {
 			setPackageJson(JSON.stringify({ ...packageJson, version: newVersion }, null, 1));
 			const message = `Update to version: ${newVersion}`;
 			Promise.all([Git.add(), Git.commit(message), Git.tag(newVersion, "v"), Git.push(newVersion)])
-				.then((e) => console.log(e))
-				.catch((e) => console.log("ERROR", e));
+				.then((ok) => console.log(ok))
+				.catch((err) => console.log("ERROR", err));
+		} else {
+			console.log("Commita os arquivos aí");
 		}
-		console.log("Commita os arquivos aí");
-	});
+	} catch (error) {}
 }
