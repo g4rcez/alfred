@@ -25,9 +25,9 @@ export default async function Version(args: any) {
 				console.log(colors.success("Done"));
 			}
 		} else {
-			console.log("Commita os arquivos aí");
+			console.log(colors.danger("WARN"), "Commit the stashed files");
 		}
 	} catch (error) {
-		console.log(error);
+		console.log(colors.danger("ERRO"), error);
 	}
 }
