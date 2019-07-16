@@ -1,6 +1,6 @@
 {
  "name": "awesome",
- "version": null,
+ "version": "2.0.0",
  "description": "",
  "main": "./cli/index.js",
  "bin": {

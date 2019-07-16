@@ -9,7 +9,7 @@ const countStash = async () => {
 		const stdout = await $("git status --porcelain");
 		return stdout;
 	} catch (error) {
-		return [false, "Stach error"];
+		return [false, "Stash error"];
 	}
 };
 
