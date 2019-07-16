@@ -27,7 +27,7 @@ export default async function Version(args: any) {
 					await Git.tag(tagVersion);
 					spin.text = `${colors.success("Tag")} GenerateTag: ${tagVersion}`;
 					await Git.push(tagVersion);
-					console.log(colors.success("Done"));
+					console.log("\n", colors.success("Done"));
 				}
 			} else {
 				console.log(colors.danger("WARN"), "Commit the stashed files");
@@ -35,7 +35,7 @@ export default async function Version(args: any) {
 		} catch (error) {
 			console.log(colors.danger("ERRO"), error);
 		}
-		spin.text = `${colors.danger("WARN")} Commit your stash files`;
+		spin.text = `\n${colors.danger("WARN")} Commit your stash files`;
 		spin.stop();
 	}, 5000);
 }
