@@ -5,6 +5,7 @@ export default async function Version(args: any) {
 	const mode = args.update;
 	const msg = args.msg;
 	try {
+		console.log("COMMIT MESSAGE", msg);
 		const e: any = await Git.countStash();
 		const content = e[1];
 		if (content === "") {
