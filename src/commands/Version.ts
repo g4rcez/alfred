@@ -1,11 +1,11 @@
 import versionUpdate, { VersionUpgrade } from "../utils/versionUpdate";
 import { getPackageJson, setPackageJson } from "../utils/files";
 import Git from "../utils/github";
+import colors from "../styles/colors";
 export default async function Version(args: any) {
 	const mode = args.update;
 	const msg = args.msg;
 	try {
-		console.log("COMMIT MESSAGE", msg);
 		const e: any = await Git.countStash();
 		const content = e[1];
 		if (content === "") {
@@ -19,6 +19,7 @@ export default async function Version(args: any) {
 				await Git.commit(message);
 				await Git.tag(tagVersion);
 				await Git.push(tagVersion);
+				console.log(colors.success("Done"));
 			}
 		} else {
 			console.log("Commita os arquivos aí");
