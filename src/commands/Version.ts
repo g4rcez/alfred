@@ -8,7 +8,6 @@ export default async function Version(args: any) {
 	try {
 		const e: any = await Git.countStash();
 		const content = e[1];
-		console.log(mode, msg, content === "", Git.isGitRepo());
 		if (content === "") {
 			const packageJson = JSON.parse(getPackageJson());
 			const newVersion = versionUpdate(packageJson.version, mode) as string;
@@ -25,5 +24,7 @@ export default async function Version(args: any) {
 		} else {
 			console.log("Commita os arquivos aí");
 		}
-	} catch (error) {}
+	} catch (error) {
+		console.log(error);
+	}
 }
