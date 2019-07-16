@@ -8,6 +8,7 @@ export default async function Version(args: any) {
 	try {
 		const e: any = await Git.countStash();
 		const content = e[1];
+		console.log(mode, msg);
 		if (content === "") {
 			const packageJson = JSON.parse(getPackageJson());
 			const newVersion = versionUpdate(packageJson.version, mode) as string;
