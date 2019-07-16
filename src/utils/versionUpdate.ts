@@ -1,12 +1,14 @@
 import semver from "semver";
 
 export type VersionUpgrade = "patch" | "minor" | "major";
-const versions = ["patch", "minor", "major"];
+const versions: VersionUpgrade[] = ["patch", "minor", "major"];
+
 const versionUpdate = (version: string, upgrade: VersionUpgrade) => {
-	const correct = versions.filter((x) => version === x).length === 1 ? version : "patch";
-	const v = semver.inc(version, upgrade, { loose: false });
-	console.log("VERSION CORRECT V", version, correct, v);
-	return v;
+	if (semver.valid(version)) {
+		const correct = versions.filter((x) => version === x).length === 1 ? version : "patch";
+		return semver.inc(version, correct as VersionUpgrade, { loose: false });
+	}
+	return "0.0.0";
 };
 
 export default versionUpdate;
