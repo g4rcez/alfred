@@ -1,4 +1,6 @@
 import $ from "../shell";
+import fs from "fs";
+import path from "path";
 
 const add = async () => await $("git add .");
 
@@ -13,8 +15,10 @@ const countStash = async () => {
 
 const commit = async (msg: string) => await $(`git commit -m "${msg}"`);
 
-const tag = async (version: string, prefixOnCommit = "v") => await $(`git tag ${prefixOnCommit}${version}`);
+const tag = async (version: string) => await $(`git tag ${version}`);
 
 const push = async (target: string) => await $(`git push origin ${target}`);
 
-export default { add, tag, countStash, commit, push };
+const isGitRepo = () => fs.existsSync(path.join(process.cwd(), ".git"));
+
+export default { add, tag, countStash, commit, push, isGitRepo };

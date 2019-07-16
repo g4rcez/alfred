@@ -1,12 +1,15 @@
+#!/usr/bin/env node
 import cli from "commander";
 import Version from "./commands/Version";
 
 const program = new cli.Command();
 program.version("0.0.1");
 program
-	.command("version [dir]")
+	.command("version")
 	.alias("v")
-	.option("-u, --update", "Get the new version based on patch | dev | stable", "dev")
+	.description("Update version of package.json and git tag version")
+	.option("-u, --update <release>", "Get the new version based on patch | dev | stable", "dev")
+	.option("-m, --msg <message>", "Message on commit")
 	.action(Version);
 
 program.parse(process.argv);
