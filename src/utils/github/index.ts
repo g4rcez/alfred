@@ -13,10 +13,7 @@ const countStash = async () => {
 	}
 };
 
-const commit = async (msg: string) => {
-	await $(`git commit -m "${msg}"`);
-	console.log(msg);
-};
+const commit = async (msg: string) => await $(`git commit -m "${msg}"`);
 
 const tag = async (version: string) => await $(`git tag ${version}`);
 
