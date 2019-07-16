@@ -15,6 +15,7 @@ export default async function Version(args: any) {
 			const message = !!msg ? `${msg} - ${newVersion}` : `Update to: ${tagVersion}`;
 			if (Git.isGitRepo()) {
 				await Git.add();
+				console.log("ADD");
 				await Git.commit(message);
 				await Git.tag(tagVersion);
 				await Git.push(tagVersion);
