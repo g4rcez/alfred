@@ -8,5 +8,7 @@ const lang: { [key: string]: () => Language } = {
 export default async function Version(args: any) {
 	const languageUse = findLangProject();
 	const execLang = lang[languageUse]();
-	await execLang.run(args);
+	if (await execLang.checkGitRepo()) {
+		await execLang.run(args);
+	}
 }

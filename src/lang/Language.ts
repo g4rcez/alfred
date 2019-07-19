@@ -4,10 +4,12 @@ import fs from "fs";
 export type VersionArguments = {
 	update: VersionUpgrade;
 	msg: string;
+	noLastCommit: boolean;
 };
 
 export default interface Language {
-	run(args: VersionArguments): void;
+	run(args: VersionArguments): Promise<void>;
+	checkGitRepo(): Promise<boolean>;
 }
 
 const e = fs.existsSync;

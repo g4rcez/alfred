@@ -10,6 +10,7 @@ program
 	.description("Update version of package.json and git tag version")
 	.option("-u, --update <release>", "Get the new version based on patch | minor | major", "patch")
 	.option("-m, --msg <message>", "Message on commit")
+	.option("-n, --nolastcommit <boolean>", "Commit with last commit message", false)
 	.action(Version);
 
 program
