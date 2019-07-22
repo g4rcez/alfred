@@ -16,15 +16,15 @@ export default class Node implements Language {
 		spin.start();
 		try {
 			const e: any = await Git.countStash();
-			if (e[1] === "") {
+			if (e[1] === "" || true) {
 				const packageJson = JSON.parse(getPackageJson());
 				const currVersion = packageJson.version;
 				const newVersion = versionUpdate(currVersion, mode) as string;
 				const tagVersion = `v${newVersion}`;
-				setPackageJson(JSON.stringify({ ...packageJson, version: newVersion }, null, 4));
+				await setPackageJson(JSON.stringify({ ...packageJson, version: newVersion }, null, 4));
 				const lastCommit = await Git.getLastCommit();
 				const useLastCommit = nolastcommit ? `${lastCommit}: ${tagVersion}` : `${tagVersion}`;
-				const message = !!msg ? `${msg} - ${newVersion}` : useLastCommit;
+				const message = !!msg ? `${msg} - ${useLastCommit}` : useLastCommit;
 				spin.text = `${colors.warn("Upgrade")} Upgrade from ${currVersion} to ${newVersion}`;
 				Git.addCommitTagPush({
 					onAdd: () => {
