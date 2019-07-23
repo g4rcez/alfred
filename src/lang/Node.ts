@@ -21,11 +21,17 @@ export default class Node implements Language {
 				const currVersion = packageJson.version;
 				const newVersion = versionUpdate(currVersion, mode) as string;
 				const tagVersion = `v${newVersion}`;
-				await setPackageJson(JSON.stringify({ ...packageJson, version: newVersion }, null, 4));
+				await setPackageJson(
+					JSON.stringify({ ...packageJson, version: newVersion }, null, 4)
+				);
 				const lastCommit = await Git.getLastCommit();
-				const useLastCommit = nolastcommit ? `${lastCommit}: ${tagVersion}` : `${tagVersion}`;
+				const useLastCommit = !nolastcommit
+					? `${lastCommit}: ${tagVersion}`
+					: `${tagVersion}`;
 				const message = !!msg ? `${msg} - ${useLastCommit}` : useLastCommit;
-				spin.text = `${colors.warn("Upgrade")} Upgrade from ${currVersion} to ${newVersion}`;
+				spin.text = `${colors.warn(
+					"Upgrade"
+				)} Upgrade from ${currVersion} to ${tagVersion}`;
 				Git.addCommitTagPush({
 					onAdd: () => {
 						spin.text = `${colors.success("Add")} Add Package.json`;
@@ -45,7 +51,9 @@ export default class Node implements Language {
 					},
 					onTag: {
 						callback: () => {
-							spin.text = `${colors.success("Commit & Tag")} ${message} - [${tagVersion}]`;
+							spin.text = `${colors.success(
+								"Commit & Tag"
+							)} ${message} - [${tagVersion}]`;
 						},
 						msg: tagVersion
 					}
