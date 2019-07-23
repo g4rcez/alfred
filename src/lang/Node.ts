@@ -25,40 +25,42 @@ export default class Node implements Language {
 					JSON.stringify({ ...packageJson, version: newVersion }, null, 4)
 				);
 				const lastCommit = await Git.getLastCommit();
+				const prettyLastCommit = lastCommit[1].replace(/\n/, "");
 				const useLastCommit = !nolastcommit
 					? `${lastCommit}: ${tagVersion}`
 					: `${tagVersion}`;
-				const message = !!msg ? `${msg} - ${useLastCommit}` : useLastCommit;
-				spin.text = `${colors.warn(
-					"Upgrade"
-				)} Upgrade from ${currVersion} to ${tagVersion}`;
-				Git.addCommitTagPush({
-					onAdd: () => {
-						spin.text = `${colors.success("Add")} Add Package.json`;
-					},
-					onCommit: {
-						callback: () => {
-							spin.text = `${colors.success("Commit")} ${message}`;
-						},
-						msg: message
-					},
-					onPush: {
-						callback: () => {
-							spin.stop();
-							console.log("\n", colors.success("Done"));
-						},
-						msg: tagVersion
-					},
-					onTag: {
-						callback: () => {
-							spin.text = `${colors.success(
-								"Commit & Tag"
-							)} ${message} - [${tagVersion}]`;
-						},
-						msg: tagVersion
-					}
-				});
-				return;
+				console.log("\n", prettyLastCommit);
+				// const message = !!msg ? `${msg} - ${useLastCommit}` : useLastCommit;
+				// spin.text = `${colors.warn(
+				// 	"Upgrade"
+				// )} Upgrade from ${currVersion} to ${tagVersion}`;
+				// Git.addCommitTagPush({
+				// 	onAdd: () => {
+				// 		spin.text = `${colors.success("Add")} Add Package.json`;
+				// 	},
+				// 	onCommit: {
+				// 		callback: () => {
+				// 			spin.text = `${colors.success("Commit")} ${message}`;
+				// 		},
+				// 		msg: message
+				// 	},
+				// 	onPush: {
+				// 		callback: () => {
+				// 			spin.stop();
+				// 			console.log("\n", colors.success("Done"));
+				// 		},
+				// 		msg: tagVersion
+				// 	},
+				// 	onTag: {
+				// 		callback: () => {
+				// 			spin.text = `${colors.success(
+				// 				"Commit & Tag"
+				// 			)} ${message} - [${tagVersion}]`;
+				// 		},
+				// 		msg: tagVersion
+				// 	}
+				// });
+				// return;
 			} else {
 				spin.stop();
 				console.log(colors.danger("WARN"), "Commit the stashed files");
