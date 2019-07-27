@@ -32,7 +32,8 @@ export default async function Version(args: any) {
 					: `${msg}: ${tagUpdate}`;
 				const outputMessage = str(useLastCommit);
 				const addMessage = await lang.onAdd();
-				log.info("Add package.json");
+				log.info(addMessage);
+				console.log(addMessage)
 				const commit = await lang.onCommit(outputMessage);
 				log.success(outputMessage);
 				const tag = await lang.onTag(upgrade.tag);

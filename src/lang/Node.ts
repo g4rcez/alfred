@@ -8,14 +8,17 @@ export default class Node implements Language {
 		await Git.commit(msg);
 		return msg;
 	}
+
 	public async onTag(tag: string): Promise<string> {
 		await Git.tag(tag);
 		return tag;
 	}
+
 	public async onPush(remote: string): Promise<string> {
 		await Git.push(remote);
 		return "Pushed to remote " + remote;
 	}
+
 	public async upgrade(args: any) {
 		try {
 			const packageJson = JSON.parse(await this.getConfigFile());
@@ -40,7 +43,9 @@ export default class Node implements Language {
 			};
 		}
 	}
+
 	private currVersion: string = "";
+
 	private newVersion: string = "";
 
 	public async onAdd(): Promise<string> {
