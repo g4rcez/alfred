@@ -15,7 +15,7 @@ export default async function Version(args: any) {
 	const { msg, nolastcommit } = args;
 	if (await lang.checkGitRepo()) {
 		const e: any = await Git.countStash();
-		if (e[1] === "" || true) {
+		if (e[1] === "") {
 			const upgrade = await lang.upgrade(args);
 			if (upgrade.success) {
 				const lastCommit = await Git.getLastCommit();
@@ -40,7 +40,9 @@ export default async function Version(args: any) {
 				const push = await lang.onPush(upgrade.tag);
 				log.complete(push[1]);
 			}
+		} else {
+			log.error("Commit your stashed files");
+			return;
 		}
-		log.error("Commit your stashed files");
 	}
 }
