@@ -23,6 +23,8 @@ const isGitRepo = () => fs.existsSync(path.join(process.cwd(), ".git"));
 
 const getLastCommit = () => $("git log -1 --pretty=%B");
 
+const remoteUrl = () => $("git config --get remote.origin.url");
+
 type TaddCommitTPush = {
 	onAdd: () => void;
 	onCommit: {
@@ -49,4 +51,14 @@ const addCommitTagPush = async (args: TaddCommitTPush) => {
 	!!args.onPush.callback && args.onPush.callback();
 };
 
-export default { add, tag, countStash, commit, push, isGitRepo, getLastCommit, addCommitTagPush };
+export default {
+	add,
+	tag,
+	countStash,
+	commit,
+	push,
+	isGitRepo,
+	getLastCommit,
+	addCommitTagPush,
+	remoteUrl
+};

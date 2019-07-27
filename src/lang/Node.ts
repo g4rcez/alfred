@@ -1,73 +1,63 @@
-import Language from "./Language";
-import Spinner from "../styles/spinner";
 import { getPackageJson, setPackageJson } from "../utils/files";
-import versionUpdate from "../utils/versionUpdate";
 import Git from "../utils/github";
-import colors from "../styles/colors";
+import versionUpdate from "../utils/versionUpdate";
+import Language from "./Language";
 
 export default class Node implements Language {
-	public async checkGitRepo(): Promise<boolean> {
-		return true;
+	public async onCommit(msg: string): Promise<string> {
+		await Git.commit(msg);
+		return msg;
 	}
-	public async run(args: any) {
-		const mode = args.update || "patch";
-		const { msg, nolastcommit } = args;
-		const spin = Spinner("Doing some stuff");
-		spin.start();
+	public async onTag(tag: string): Promise<string> {
+		await Git.tag(tag);
+		return tag;
+	}
+	public async onPush(remote: string): Promise<string> {
+		await Git.push(remote);
+		return "Pushed to remote " + remote;
+	}
+	public async upgrade(args: any) {
 		try {
-			const e: any = await Git.countStash();
-			if (e[1] === "" || true) {
-				const packageJson = JSON.parse(getPackageJson());
-				const currVersion = packageJson.version;
-				const newVersion = versionUpdate(currVersion, mode) as string;
-				const tagVersion = `v${newVersion}`;
-				await setPackageJson(
-					JSON.stringify({ ...packageJson, version: newVersion }, null, 4)
-				);
-				const lastCommit = await Git.getLastCommit();
-				const prettyLastCommit = lastCommit[1].replace(/\n/, "");
-				const useLastCommit = !nolastcommit
-					? `${lastCommit}: ${tagVersion}`
-					: `${tagVersion}`;
-				console.log("\n", prettyLastCommit);
-				// const message = !!msg ? `${msg} - ${useLastCommit}` : useLastCommit;
-				// spin.text = `${colors.warn(
-				// 	"Upgrade"
-				// )} Upgrade from ${currVersion} to ${tagVersion}`;
-				// Git.addCommitTagPush({
-				// 	onAdd: () => {
-				// 		spin.text = `${colors.success("Add")} Add Package.json`;
-				// 	},
-				// 	onCommit: {
-				// 		callback: () => {
-				// 			spin.text = `${colors.success("Commit")} ${message}`;
-				// 		},
-				// 		msg: message
-				// 	},
-				// 	onPush: {
-				// 		callback: () => {
-				// 			spin.stop();
-				// 			console.log("\n", colors.success("Done"));
-				// 		},
-				// 		msg: tagVersion
-				// 	},
-				// 	onTag: {
-				// 		callback: () => {
-				// 			spin.text = `${colors.success(
-				// 				"Commit & Tag"
-				// 			)} ${message} - [${tagVersion}]`;
-				// 		},
-				// 		msg: tagVersion
-				// 	}
-				// });
-				// return;
-			} else {
-				spin.stop();
-				console.log(colors.danger("WARN"), "Commit the stashed files");
-				return;
-			}
+			const packageJson = JSON.parse(await this.getConfigFile());
+			this.currVersion = await this.getVersion();
+			this.newVersion = versionUpdate(this.currVersion, args.mode) as string;
+			const tagVersion = `v${this.newVersion}`;
+			await setPackageJson(
+				JSON.stringify({ ...packageJson, version: this.newVersion }, null, 4)
+			);
+			return {
+				success: true,
+				tag: tagVersion,
+				newVersion: this.newVersion,
+				previousVersion: this.currVersion
+			};
 		} catch (error) {
-			console.log(colors.danger("ERRO"), error);
+			return {
+				tag: "",
+				success: false,
+				newVersion: this.newVersion,
+				previousVersion: this.currVersion
+			};
 		}
+	}
+	private currVersion: string = "";
+	private newVersion: string = "";
+
+	public async onAdd(): Promise<string> {
+		await Git.add();
+		return "Add package.json";
+	}
+
+	public async getVersion(): Promise<string> {
+		const pkg = await this.getConfigFile();
+		return JSON.parse(pkg).version;
+	}
+
+	public async getConfigFile(): Promise<string> {
+		return await getPackageJson();
+	}
+
+	public async checkGitRepo(): Promise<boolean> {
+		return Git.isGitRepo();
 	}
 }

@@ -25,6 +25,7 @@ program
 
 program
 	.command("tags")
+	.alias("tag")
 	.alias("t")
 	.action(Tags);
 

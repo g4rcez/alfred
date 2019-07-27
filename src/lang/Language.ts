@@ -8,8 +8,21 @@ export type VersionArguments = {
 };
 
 export default interface Language {
-	run(args: VersionArguments): Promise<void>;
 	checkGitRepo(): Promise<boolean>;
+	getVersion(): Promise<string>;
+	getConfigFile(): Promise<string>;
+	upgrade(
+		args: VersionArguments
+	): Promise<{
+		tag: string;
+		success: boolean;
+		newVersion: string;
+		previousVersion: string;
+	}>;
+	onAdd(): Promise<string>;
+	onCommit(msg: string): Promise<string>;
+	onTag(tag: string): Promise<string>;
+	onPush(remote: string): Promise<string>;
 }
 
 const e = fs.existsSync;
