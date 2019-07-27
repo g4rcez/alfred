@@ -32,13 +32,13 @@ export default async function Version(args: any) {
 					: `${msg}: ${tagUpdate}`;
 				const outputMessage = str(useLastCommit);
 				const addMessage = await lang.onAdd();
-				log.info(addMessage[1]);
+				log.info("Add package.json");
 				const commit = await lang.onCommit(outputMessage);
-				log.success(commit[1]);
+				log.success(outputMessage);
 				const tag = await lang.onTag(upgrade.tag);
-				log.info(`New tag: ${tag[1]}`);
+				log.info(`New tag: ${upgrade.tag}`);
 				const push = await lang.onPush(upgrade.tag);
-				log.complete(push[1]);
+				log.complete("Done");
 			}
 		} else {
 			log.error("Commit your stashed files");
