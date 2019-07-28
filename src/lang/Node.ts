@@ -4,6 +4,29 @@ import versionUpdate from "../utils/versionUpdate";
 import Language from "./Language";
 
 export default class Node implements Language {
+	private currVersion: string = "";
+
+	private newVersion: string = "";
+
+	public async onAdd(): Promise<string> {
+		const onAdd = await Git.add();
+		console.log("ON ADD", onAdd);
+		return "Add package.json";
+	}
+
+	public async getVersion(): Promise<string> {
+		const pkg = await this.getConfigFile();
+		const json = JSON.parse(pkg);
+		return json.version;
+	}
+
+	public async getConfigFile(): Promise<string> {
+		return await getPackageJson();
+	}
+
+	public async checkGitRepo(): Promise<boolean> {
+		return Git.isGitRepo();
+	}
 	public async onCommit(msg: string): Promise<string> {
 		await Git.commit(msg);
 		return msg;
@@ -23,6 +46,7 @@ export default class Node implements Language {
 		try {
 			const packageJson = JSON.parse(await this.getConfigFile());
 			this.currVersion = await this.getVersion();
+			console.log("ARGUMENTS", args);
 			this.newVersion = versionUpdate(this.currVersion, args.mode) as string;
 			const tagVersion = `v${this.newVersion}`;
 			await setPackageJson(
@@ -43,30 +67,5 @@ export default class Node implements Language {
 				previousVersion: this.currVersion
 			};
 		}
-	}
-
-	private currVersion: string = "";
-
-	private newVersion: string = "";
-
-	public async onAdd(): Promise<string> {
-		const onAdd = await Git.add();
-		console.log("ON ADD", onAdd);
-		return "Add package.json";
-	}
-
-	public async getVersion(): Promise<string> {
-		const pkg = await this.getConfigFile();
-		const json = JSON.parse(pkg);
-		console.log("VERSION", json.version);
-		return json.version;
-	}
-
-	public async getConfigFile(): Promise<string> {
-		return await getPackageJson();
-	}
-
-	public async checkGitRepo(): Promise<boolean> {
-		return Git.isGitRepo();
 	}
 }
