@@ -10,7 +10,6 @@ export default class Node implements Language {
 
 	public async onAdd(): Promise<string> {
 		const onAdd = await Git.add();
-		console.log("ON ADD", onAdd);
 		return "Add package.json";
 	}
 
