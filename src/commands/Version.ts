@@ -19,18 +19,18 @@ export default async function Version(args: any) {
 	const languageUse = findLangProject();
 	const lang = language[languageUse]();
 	const { msg, nolastcommit } = args;
-	if (await lang.checkGitRepo()) {
-		const e: any = await Git.countStash();
-		if (e[1] === "") {
+	const lastCommit = !!!nolastcommit;
+	const isGit = await lang.checkGitRepo();
+	if (isGit) {
+		const stash: any = await Git.countStash();
+		if (stash[1] === "") {
 			const upgrade = await lang.upgrade(args);
 			if (upgrade.success) {
-				const lastCommit = await Git.getLastCommit();
-				const tagUpdate = `[From: ${upgrade.previousVersion}, To: ${
-					upgrade.tag
-				}]`;
-				const useLastCommit = !!!nolastcommit
-					? `${lastCommit[1]} ${tagUpdate}`
-					: `${msg}: ${tagUpdate}`;
+				const commit = (await Git.getLastCommit())[1];
+				const update = `[From: ${upgrade.previousVersion}, To: ${upgrade.tag}]`;
+				const useLastCommit = lastCommit
+					? `${commit} ${update}`
+					: `${msg}: ${update}`;
 				const outputMessage = str(useLastCommit);
 				const addMessage = await lang.onAdd();
 				log.info(addMessage);

@@ -40,6 +40,7 @@ type TaddCommitTPush = {
 		msg: string;
 	};
 };
+
 const addCommitTagPush = async (args: TaddCommitTPush) => {
 	await add();
 	!!args.onAdd && (await args.onAdd());

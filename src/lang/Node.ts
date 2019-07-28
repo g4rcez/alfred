@@ -43,7 +43,8 @@ export default class Node implements Language {
 
 	public async upgrade(args: any) {
 		try {
-			const mode = args.mode || "patch";
+			console.log("CHECK UPDATE METHOD", args.update);
+			const mode = args.update || "patch";
 			const packageJson = JSON.parse(await this.getConfigFile());
 			this.currVersion = await this.getVersion();
 			this.newVersion = versionUpdate(this.currVersion, mode) as string;
