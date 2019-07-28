@@ -57,7 +57,9 @@ export default class Node implements Language {
 
 	public async getVersion(): Promise<string> {
 		const pkg = await this.getConfigFile();
-		return JSON.parse(pkg).version;
+		const json = JSON.parse(pkg);
+		console.log(json);
+		return json.version;
 	}
 
 	public async getConfigFile(): Promise<string> {
