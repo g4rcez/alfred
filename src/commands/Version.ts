@@ -5,6 +5,12 @@ import Git from "../utils/github";
 import { capitalize, readableString, trueTrim } from "sidekicker/lib/strings";
 import pipe from "../utils/pipe";
 
+const str = pipe(
+	capitalize,
+	trueTrim,
+	readableString
+);
+
 const language: { [key: string]: () => Language } = {
 	node: () => new Node()
 };
@@ -17,14 +23,8 @@ export default async function Version(args: any) {
 		const e: any = await Git.countStash();
 		if (e[1] === "") {
 			const upgrade = await lang.upgrade(args);
-			console.log("Upgrade", upgrade.success);
 			if (upgrade.success) {
 				const lastCommit = await Git.getLastCommit();
-				const str = pipe(
-					capitalize,
-					trueTrim,
-					readableString
-				);
 				const tagUpdate = `[From: ${upgrade.previousVersion}, To: ${
 					upgrade.tag
 				}]`;
@@ -35,12 +35,12 @@ export default async function Version(args: any) {
 				const addMessage = await lang.onAdd();
 				log.info(addMessage);
 				console.log(addMessage);
-				const commit = await lang.onCommit(outputMessage);
+				await lang.onCommit(outputMessage);
 				log.success(outputMessage);
-				const tag = await lang.onTag(upgrade.tag);
+				await lang.onTag(upgrade.tag);
 				log.info(`New tag: ${upgrade.tag}`);
 				const push = await lang.onPush(upgrade.tag);
-				log.complete("Done");
+				log.complete(push);
 			} else {
 				log.error("Commit your stashed files");
 				return;

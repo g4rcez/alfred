@@ -26,6 +26,7 @@ export default interface Language {
 }
 
 const e = fs.existsSync;
+
 export const findLangProject = () => {
 	const currDir = process.cwd();
 	if (e(path.join(currDir, "package.json"))) {

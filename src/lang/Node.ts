@@ -46,7 +46,7 @@ export default class Node implements Language {
 		try {
 			const packageJson = JSON.parse(await this.getConfigFile());
 			this.currVersion = await this.getVersion();
-			console.log("ARGUMENTS", args);
+			console.log("ARGUMENTS", args.mode);
 			this.newVersion = versionUpdate(this.currVersion, args.mode) as string;
 			const tagVersion = `v${this.newVersion}`;
 			await setPackageJson(
