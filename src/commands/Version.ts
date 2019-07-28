@@ -17,6 +17,7 @@ export default async function Version(args: any) {
 		const e: any = await Git.countStash();
 		if (e[1] === "") {
 			const upgrade = await lang.upgrade(args);
+			console.log("Upgrade", upgrade.success);
 			if (upgrade.success) {
 				const lastCommit = await Git.getLastCommit();
 				const str = pipe(
@@ -33,7 +34,7 @@ export default async function Version(args: any) {
 				const outputMessage = str(useLastCommit);
 				const addMessage = await lang.onAdd();
 				log.info(addMessage);
-				console.log(addMessage)
+				console.log(addMessage);
 				const commit = await lang.onCommit(outputMessage);
 				log.success(outputMessage);
 				const tag = await lang.onTag(upgrade.tag);
