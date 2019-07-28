@@ -35,6 +35,7 @@ export default class Node implements Language {
 				previousVersion: this.currVersion
 			};
 		} catch (error) {
+			console.log(error);
 			return {
 				tag: "",
 				success: false,

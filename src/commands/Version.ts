@@ -41,10 +41,10 @@ export default async function Version(args: any) {
 				log.info(`New tag: ${upgrade.tag}`);
 				const push = await lang.onPush(upgrade.tag);
 				log.complete("Done");
+			} else {
+				log.error("Commit your stashed files");
+				return;
 			}
-		} else {
-			log.error("Commit your stashed files");
-			return;
 		}
 	}
 }
