@@ -44,10 +44,10 @@ export default class Node implements Language {
 
 	public async upgrade(args: any) {
 		try {
+			const mode = args.mode || "patch";
 			const packageJson = JSON.parse(await this.getConfigFile());
 			this.currVersion = await this.getVersion();
-			console.log("ARGUMENTS", args.mode);
-			this.newVersion = versionUpdate(this.currVersion, args.mode) as string;
+			this.newVersion = versionUpdate(this.currVersion, mode) as string;
 			const tagVersion = `v${this.newVersion}`;
 			await setPackageJson(
 				JSON.stringify({ ...packageJson, version: this.newVersion }, null, 4)
