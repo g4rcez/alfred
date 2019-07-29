@@ -1,15 +1,23 @@
-#!/usr/bin/env node
+#!/usr/bin/node
 import cli from "commander";
 import Version from "./commands/Version";
 import Tags from "./commands/Tags";
+import Prettier from "./commands/Prettier";
 
 const program = new cli.Command();
 
-program.version("0.0.1");
 program
-	.command("version")
-	.alias("v")
-	.description("Update version of package.json and git tag version")
+	.version("0.0.1")
+	.allowUnknownOption(false)
+	.description("Util package for git actions on your repositories")
+	.usage("upgrade | tags")
+	.name("alfred");
+
+program
+	.command("upgrade")
+	.alias("u")
+	.alias("update")
+	.description("Update version of program and git tag version")
 	.option(
 		"-u, --update <release>",
 		"Get the new version based on patch | minor | major",
@@ -24,9 +32,23 @@ program
 	.action(Version);
 
 program
-	.command("tags")
-	.alias("tag")
+	.command("tag")
+	.alias("tags")
 	.alias("t")
+	.description("Get sorted versions of tags by semantic version rules")
 	.action(Tags);
 
+program
+	.command("prettier")
+	.alias("pretty")
+	.alias("p")
+	.description(
+		"Create a prettier script for your project or apply exist prettier script"
+	)
+	.action(Prettier);
+
 program.parse(process.argv);
+
+if (process.argv.length === 2) {
+	program.help();
+}

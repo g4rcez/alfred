@@ -1,6 +1,7 @@
 import semver from "semver";
 
 export type VersionUpgrade = "patch" | "minor" | "major";
+
 const versions: VersionUpgrade[] = ["patch", "minor", "major"];
 
 const versionUpdate = (version: string, upgrade: VersionUpgrade) => {

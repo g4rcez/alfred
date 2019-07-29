@@ -1,35 +1,36 @@
 import { VersionUpgrade } from "../utils/versionUpdate";
-import path from "path";
+import { join } from "path";
 import fs from "fs";
+
 export type VersionArguments = {
 	update: VersionUpgrade;
 	msg: string;
 	noLastCommit: boolean;
 };
 
+export type UpgradeReturn = {
+	tag: string;
+	success: boolean;
+	newVersion: string;
+	previousVersion: string;
+};
+
 export default interface Language {
-	checkGitRepo(): Promise<boolean>;
+	onAdd(): Promise<string>;
 	getVersion(): Promise<string>;
 	getConfigFile(): Promise<string>;
-	upgrade(
-		args: VersionArguments
-	): Promise<{
-		tag: string;
-		success: boolean;
-		newVersion: string;
-		previousVersion: string;
-	}>;
-	onAdd(): Promise<string>;
-	onCommit(msg: string): Promise<string>;
 	onTag(tag: string): Promise<string>;
+	checkGitRepository(): Promise<boolean>;
+	onCommit(msg: string): Promise<string>;
 	onPush(remote: string): Promise<string>;
+	upgrade(args: VersionArguments): Promise<UpgradeReturn>;
 }
 
 const e = fs.existsSync;
 
 export const findLangProject = () => {
 	const currDir = process.cwd();
-	if (e(path.join(currDir, "package.json"))) {
+	if (e(join(currDir, "package.json"))) {
 		return "node";
 	}
 	return "";

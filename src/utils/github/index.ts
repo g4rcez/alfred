@@ -6,8 +6,7 @@ const add = async () => await $("git add .");
 
 const countStash = async () => {
 	try {
-		const stdout = await $("git status --porcelain");
-		return stdout;
+		return await $("git status --porcelain");
 	} catch (error) {
 		return [false, ""];
 	}
@@ -19,7 +18,7 @@ const tag = async (version: string) => await $(`git tag ${version}`);
 
 const push = async (target: string) => await $(`git push origin ${target}`);
 
-const isGitRepo = () => fs.existsSync(path.join(process.cwd(), ".git"));
+const isGitRepository = () => fs.existsSync(path.join(process.cwd(), ".git"));
 
 const getLastCommit = () => $("git log -1 --pretty=%B");
 
@@ -58,7 +57,7 @@ export default {
 	countStash,
 	commit,
 	push,
-	isGitRepo,
+	isGitRepository,
 	getLastCommit,
 	addCommitTagPush,
 	remoteUrl

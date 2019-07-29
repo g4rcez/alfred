@@ -20,7 +20,7 @@ export default async function Version(args: any) {
 	const lang = language[languageUse]();
 	const { msg, nolastcommit } = args;
 	const lastCommit = !!!nolastcommit;
-	const isGit = await lang.checkGitRepo();
+	const isGit = await lang.checkGitRepository();
 	if (isGit) {
 		const stash: any = await Git.countStash();
 		if (stash[1] === "") {
@@ -42,7 +42,6 @@ export default async function Version(args: any) {
 				log.complete(push);
 			} else {
 				log.error("Commit your stashed files");
-				return;
 			}
 		}
 	}

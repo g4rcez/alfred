@@ -1986,10 +1986,10 @@ shell-quote@^1.6.1:
     array-reduce "~0.0.0"
     jsonify "~0.0.0"
 
-sidekicker@^0.0.26:
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/sidekicker/-/sidekicker-0.0.26.tgz#ec022e62a7bea0648a82a6dc9556c95717b5c352"
-  integrity sha512-cjG7lv/kuo8XwgOItruh8fTVnuENgKkmfVmKEpjohk7Wc47LwW3VXnik9kk/hM1i0rEcAz/rYZJTQaVSCkHjjw==
+sidekicker@^0.0.27:
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/sidekicker/-/sidekicker-0.0.27.tgz#28f13dfe04fe776d69896586dab09338dc3c4725"
+  integrity sha512-bVzY1vYHxOFLi8a0uyxNn/Rh3yCIL3vHsF5wcmDUwK6tQ83TE8FzyDTAcylOqXXCH2xeCMUiCZjN+gnSr6yE/A==
   dependencies:
     axios "^0.19.0"
     moment "^2.24.0"

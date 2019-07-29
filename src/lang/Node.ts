@@ -2,14 +2,14 @@ import { getPackageJson, setPackageJson } from "../utils/files";
 import Git from "../utils/github";
 import versionUpdate from "../utils/versionUpdate";
 import Language from "./Language";
+import log from "signale";
 
 export default class Node implements Language {
 	private currVersion: string = "";
-
 	private newVersion: string = "";
 
 	public async onAdd(): Promise<string> {
-		const onAdd = await Git.add();
+		await Git.add();
 		return "Add package.json";
 	}
 
@@ -23,8 +23,8 @@ export default class Node implements Language {
 		return await getPackageJson();
 	}
 
-	public async checkGitRepo(): Promise<boolean> {
-		return Git.isGitRepo();
+	public async checkGitRepository(): Promise<boolean> {
+		return Git.isGitRepository();
 	}
 	public async onCommit(msg: string): Promise<string> {
 		await Git.commit(msg);
@@ -38,13 +38,12 @@ export default class Node implements Language {
 
 	public async onPush(remote: string): Promise<string> {
 		await Git.push(remote);
-		return "Pushed to remote " + remote;
+		return `Pushed to remote ${remote}`;
 	}
 
 	public async upgrade(args: any) {
 		try {
-			console.log("CHECK UPDATE METHOD", args.update);
-			const mode = args.update || "patch";
+			const mode = args.update;
 			const packageJson = JSON.parse(await this.getConfigFile());
 			this.currVersion = await this.getVersion();
 			this.newVersion = versionUpdate(this.currVersion, mode) as string;
@@ -59,7 +58,7 @@ export default class Node implements Language {
 				previousVersion: this.currVersion
 			};
 		} catch (error) {
-			console.log(error);
+			log.fatal(error);
 			return {
 				tag: "",
 				success: false,
