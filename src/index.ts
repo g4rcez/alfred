@@ -16,19 +16,10 @@ program
 program
 	.command("upgrade")
 	.alias("u")
-	.alias("update")
 	.description("Update version of program and git tag version")
-	.option(
-		"-u, --update <release>",
-		"Get the new version based on patch | minor | major",
-		"patch"
-	)
+	.option("-u, --update <release>", "Get the new version based on patch | minor | major", "patch")
 	.option("-m, --msg <message>", "Message on commit")
-	.option(
-		"-n, --nolastcommit <boolean>",
-		"Commit with last commit message",
-		false
-	)
+	.option("-n, --nolastcommit <boolean>", "Commit with last commit message", false)
 	.action(Version);
 
 program
@@ -42,13 +33,12 @@ program
 	.command("prettier")
 	.alias("pretty")
 	.alias("p")
-	.description(
-		"Create a prettier script for your project or apply exist prettier script"
-	)
+	.description("Create a prettier script for your project or apply exist prettier script")
 	.action(Prettier);
-
-program.parse(process.argv);
 
 if (process.argv.length === 2) {
 	program.help();
+	process.exit(1);
 }
+
+program.parse(process.argv);

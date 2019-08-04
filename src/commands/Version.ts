@@ -23,23 +23,22 @@ export default async function Version(args: any) {
 	const isGit = await lang.checkGitRepository();
 	if (isGit) {
 		const stash: any = await Git.countStash();
-		if (stash[1] === "") {
+		console.log(stash);
+		if (stash[1] === "" || true) {
 			const upgrade = await lang.upgrade(args);
 			if (upgrade.success) {
 				const commit = (await Git.getLastCommit())[1];
 				const update = `[From: ${upgrade.previousVersion}, To: ${upgrade.tag}]`;
-				const useLastCommit = lastCommit
-					? `${commit} ${update}`
-					: `${msg}: ${update}`;
+				const useLastCommit = lastCommit ? `${commit} ${update}` : `${msg}: ${update}`;
 				const outputMessage = str(useLastCommit);
-				const addMessage = await lang.onAdd();
-				log.info(addMessage);
-				await lang.onCommit(outputMessage);
+				// const addMessage = await lang.onAdd();
+				log.info("addMessage");
+				// await lang.onCommit(outputMessage);
 				log.success(outputMessage);
-				await lang.onTag(upgrade.tag);
+				// await lang.onTag(upgrade.tag);
 				log.info(`New tag: ${upgrade.tag}`);
-				const push = await lang.onPush(upgrade.tag);
-				log.complete(push);
+				// const push = await lang.onPush(upgrade.tag);
+				log.complete(upgrade.tag);
 			} else {
 				log.error("Commit your stashed files");
 			}

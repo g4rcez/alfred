@@ -3,7 +3,7 @@ import Git from "../utils/github";
 import versionUpdate from "../utils/versionUpdate";
 import Language from "./Language";
 import log from "signale";
-
+import $ from "../utils/shell";
 export default class Node implements Language {
 	private currVersion: string = "";
 	private newVersion: string = "";
@@ -44,13 +44,11 @@ export default class Node implements Language {
 	public async upgrade(args: any) {
 		try {
 			const mode = args.update;
-			const packageJson = JSON.parse(await this.getConfigFile());
 			this.currVersion = await this.getVersion();
 			this.newVersion = versionUpdate(this.currVersion, mode) as string;
 			const tagVersion = `v${this.newVersion}`;
-			await setPackageJson(
-				JSON.stringify({ ...packageJson, version: this.newVersion }, null, 4)
-			);
+			// await setPackageJson({ ...packageJson, version: this.newVersion });
+			await $(`npm version ${mode}`);
 			return {
 				success: true,
 				tag: tagVersion,
