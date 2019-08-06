@@ -48,21 +48,23 @@ export default class Node implements Language {
 			this.currVersion = await this.getVersion();
 			this.newVersion = versionUpdate(this.currVersion, mode) as string;
 			const tagVersion = `v${this.newVersion}`;
-			await $(`npm version ${mode}`);
-			return {
-				success: true,
-				tag: tagVersion,
-				newVersion: this.newVersion,
-				previousVersion: this.currVersion
-			};
+			const success = await $(`npm version ${mode}`);
+			if (success[0]) {
+				return {
+					success: true,
+					tag: tagVersion,
+					newVersion: this.newVersion,
+					previousVersion: this.currVersion
+				};
+			}
 		} catch (error) {
 			log.fatal(error);
-			return {
-				tag: "",
-				success: false,
-				newVersion: this.newVersion,
-				previousVersion: this.currVersion
-			};
 		}
+		return {
+			tag: "",
+			success: false,
+			newVersion: this.newVersion,
+			previousVersion: this.currVersion
+		};
 	}
 }
