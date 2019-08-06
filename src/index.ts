@@ -17,7 +17,7 @@ program
 	.command("upgrade")
 	.alias("u")
 	.description("Update version of program and git tag version")
-	.option("-u, --update <release>", "Get the new version based on patch | minor | major", "patch")
+	.option("-u, --update <release>", "Get the new version based on major | minor | patch | premajor | preminor | prepatch", "patch")
 	.option("-m, --msg <message>", "Message on commit")
 	.option("-n, --nolastcommit <boolean>", "Commit with last commit message", false)
 	.action(Version);

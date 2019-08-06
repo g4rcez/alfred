@@ -25,7 +25,4 @@
     ],
     "esModuleInterop": true,
   },
-  "include": [
-    "assets"
-  ]
 }

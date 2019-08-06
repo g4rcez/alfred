@@ -4,6 +4,7 @@ import log from "signale";
 import Git from "../utils/github";
 import { capitalize, readableString, trueTrim } from "sidekicker/lib/strings";
 import pipe from "../utils/pipe";
+import NoLanguage from "../lang/NoLanguage";
 
 const str = pipe(
 	capitalize,
@@ -12,7 +13,8 @@ const str = pipe(
 );
 
 const language: { [key: string]: () => Language } = {
-	node: () => new Node()
+	node: () => new Node(),
+	default: () => new NoLanguage()
 };
 
 export default async function Version(args: any) {
@@ -23,25 +25,24 @@ export default async function Version(args: any) {
 	const isGit = await lang.checkGitRepository();
 	if (isGit) {
 		const stash: any = await Git.countStash();
-		console.log(stash);
-		if (stash[1] === "" || true) {
+		if (stash[1] === "") {
 			const upgrade = await lang.upgrade(args);
 			if (upgrade.success) {
 				const commit = (await Git.getLastCommit())[1];
 				const update = `[From: ${upgrade.previousVersion}, To: ${upgrade.tag}]`;
 				const useLastCommit = lastCommit ? `${commit} ${update}` : `${msg}: ${update}`;
 				const outputMessage = str(useLastCommit);
-				// const addMessage = await lang.onAdd();
-				log.info("addMessage");
-				// await lang.onCommit(outputMessage);
+				const addMessage = await lang.onAdd();
+				log.success(addMessage);
+				await lang.onCommit(outputMessage);
 				log.success(outputMessage);
-				// await lang.onTag(upgrade.tag);
+				await lang.onTag(upgrade.tag);
 				log.info(`New tag: ${upgrade.tag}`);
-				// const push = await lang.onPush(upgrade.tag);
+				const push = await lang.onPush(upgrade.tag);
 				log.complete(upgrade.tag);
-			} else {
-				log.error("Commit your stashed files");
 			}
+		} else {
+			log.error("Commit your stashed files", "\n", stash[1]);
 		}
 	}
 }

@@ -2,7 +2,7 @@ import { getPackageJson, setPackageJson, setFile } from "../utils/files";
 import $ from "../utils/shell";
 import path from "path";
 //@ts-ignore
-import prettierrc from "../../assets/.prettierrc.json";
+import prettierrc from "../assets/.prettierrc.json";
 
 const formatString = `prettier --write \"{.,src/**}/*.{js,jsx,ts,tsx}\"`;
 const scriptString = "prettier";

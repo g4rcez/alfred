@@ -1,6 +1,6 @@
-import { VersionUpgrade } from "../utils/versionUpdate";
-import { join } from "path";
 import fs from "fs";
+import { VersionUpgrade } from "../utils/versionUpdate";
+import Node from "./Node";
 
 export type VersionArguments = {
 	update: VersionUpgrade;
@@ -30,8 +30,8 @@ const e = fs.existsSync;
 
 export const findLangProject = () => {
 	const currDir = process.cwd();
-	if (e(join(currDir, "package.json"))) {
+	if (Node.pathConfigFile) {
 		return "node";
 	}
-	return "";
+	return "default";
 };

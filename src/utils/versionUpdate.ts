@@ -1,6 +1,6 @@
 import semver from "semver";
 
-export type VersionUpgrade = "patch" | "minor" | "major";
+export type VersionUpgrade = "major" | "minor" | "patch" | "premajor" | "preminor" | "prepatch"
 
 const versions: VersionUpgrade[] = ["patch", "minor", "major"];
 

@@ -1,17 +1,15 @@
-import { getPackageJson, setPackageJson, pathPackageJson } from "../utils/files";
+import log from "signale";
 import Git from "../utils/github";
+import $ from "../utils/shell";
 import versionUpdate from "../utils/versionUpdate";
 import Language from "./Language";
-import log from "signale";
-import $ from "../utils/shell";
-export default class Node implements Language {
-	public static pathConfigFile = pathPackageJson();
+export default class NoLanguage implements Language {
 	private currVersion: string = "";
 	private newVersion: string = "";
 
 	public async onAdd(): Promise<string> {
 		await Git.add();
-		return "Add package.json";
+		return "Add Updates";
 	}
 
 	public async getVersion(): Promise<string> {
@@ -21,7 +19,7 @@ export default class Node implements Language {
 	}
 
 	public async getConfigFile(): Promise<string> {
-		return await getPackageJson();
+		return await "";
 	}
 
 	public async checkGitRepository(): Promise<boolean> {
