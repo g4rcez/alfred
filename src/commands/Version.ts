@@ -39,10 +39,10 @@ export default async function Version(args: any) {
 					log.success(addMessage);
 					await lang.onCommit(outputMessage);
 					log.success("Commit message", outputMessage);
-					await lang.onTag(upgrade.tag);
-					log.info(`New tag: ${upgrade.tag}`);
-					const push = await lang.onPush(upgrade.tag);
-					log.complete(upgrade.tag);
+					// await lang.onTag(upgrade.tag);
+					// log.info(`New tag: ${upgrade.tag}`);
+					// const push = await lang.onPush(upgrade.tag);
+					// log.complete(upgrade.tag);
 				} catch (error) {
 					log.error(error);
 				}
