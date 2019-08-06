@@ -48,7 +48,7 @@ export default class Node implements Language {
 			this.currVersion = await this.getVersion();
 			this.newVersion = versionUpdate(this.currVersion, mode) as string;
 			const tagVersion = `v${this.newVersion}`;
-			const success = await $(`npm version ${mode}`);
+			const success = await $(`npm version --no-git-tag-version ${mode}`);
 			if (success[0]) {
 				return {
 					success: true,
