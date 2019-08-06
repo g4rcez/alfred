@@ -28,18 +28,22 @@ export default async function Version(args: any) {
 		if (stash[1] === "") {
 			const upgrade = await lang.upgrade(args);
 			if (upgrade.success) {
-				const commit = (await Git.getLastCommit())[1];
-				const update = `[From: ${upgrade.previousVersion}, To: ${upgrade.tag}]`;
-				const useLastCommit = lastCommit ? `${commit} ${update}` : `${msg}: ${update}`;
-				const outputMessage = str(useLastCommit);
-				const addMessage = await lang.onAdd();
-				log.success(addMessage);
-				await lang.onCommit(outputMessage);
-				log.success(outputMessage);
-				await lang.onTag(upgrade.tag);
-				log.info(`New tag: ${upgrade.tag}`);
-				const push = await lang.onPush(upgrade.tag);
-				log.complete(upgrade.tag);
+				try {
+					const commit = (await Git.getLastCommit())[1];
+					const update = `[From: ${upgrade.previousVersion}, To: ${upgrade.tag}]`;
+					const useLastCommit = lastCommit ? `${commit} ${update}` : `${msg}: ${update}`;
+					const outputMessage = str(useLastCommit);
+					const addMessage = await lang.onAdd();
+					log.success(addMessage);
+					await lang.onCommit(outputMessage);
+					log.success(outputMessage);
+					await lang.onTag(upgrade.tag);
+					log.info(`New tag: ${upgrade.tag}`);
+					const push = await lang.onPush(upgrade.tag);
+					log.complete(upgrade.tag);
+				} catch (error) {
+					log.error(error);
+				}
 			}
 		} else {
 			log.error("Commit your stashed files", "\n", stash[1]);
