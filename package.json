@@ -1,6 +1,6 @@
 {
     "name": "alfred",
-    "version": "3.0.35",
+    "version": "3.0.36",
     "description": "",
     "main": "./cli/index.js",
     "bin": {
