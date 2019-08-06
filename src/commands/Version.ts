@@ -34,9 +34,11 @@ export default async function Version(args: any) {
 					const useLastCommit = lastCommit ? `${commit} ${update}` : `${msg}: ${update}`;
 					const outputMessage = str(useLastCommit);
 					const addMessage = await lang.onAdd();
+					log.success(update);
+					log.success(outputMessage);
 					log.success(addMessage);
 					await lang.onCommit(outputMessage);
-					log.success(outputMessage);
+					log.success("Commit message", outputMessage);
 					await lang.onTag(upgrade.tag);
 					log.info(`New tag: ${upgrade.tag}`);
 					const push = await lang.onPush(upgrade.tag);
