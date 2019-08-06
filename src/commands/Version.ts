@@ -31,7 +31,7 @@ export default async function Version(args: any) {
 				try {
 					const commit = (await Git.getLastCommit())[1];
 					const update = `[From: ${upgrade.previousVersion}, To: ${upgrade.tag}]`;
-					console.log("useLastCommit", lastCommit);
+					console.log("useLastCommit", lastCommit, commit);
 					const useLastCommit = lastCommit ? `${commit} ${update}` : `${msg}: ${update}`;
 					const outputMessage = str(useLastCommit);
 					const addMessage = await lang.onAdd();
