@@ -25,12 +25,13 @@ export default async function Version(args: any) {
 	const isGit = await lang.checkGitRepository();
 	if (isGit) {
 		const stash: any = await Git.countStash();
-		if (stash[1] === "") {
+		if (stash[1] === "" || true) {
 			const upgrade = await lang.upgrade(args);
 			if (upgrade.success) {
 				try {
 					const commit = (await Git.getLastCommit())[1];
 					const update = `[From: ${upgrade.previousVersion}, To: ${upgrade.tag}]`;
+					console.log("useLastCommit", lastCommit);
 					const useLastCommit = lastCommit ? `${commit} ${update}` : `${msg}: ${update}`;
 					const outputMessage = str(useLastCommit);
 					const addMessage = await lang.onAdd();
@@ -39,10 +40,10 @@ export default async function Version(args: any) {
 					log.success(addMessage);
 					await lang.onCommit(outputMessage);
 					log.success("Commit message", outputMessage);
-					// await lang.onTag(upgrade.tag);
-					// log.info(`New tag: ${upgrade.tag}`);
-					// const push = await lang.onPush(upgrade.tag);
-					// log.complete(upgrade.tag);
+					await lang.onTag(upgrade.tag);
+					log.info(`New tag: ${upgrade.tag}`);
+					const push = await lang.onPush(upgrade.tag);
+					log.complete(upgrade.tag);
 				} catch (error) {
 					log.error(error);
 				}
