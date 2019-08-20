@@ -48,9 +48,10 @@ export default class Node implements Language {
 			this.currVersion = await this.getVersion();
 			this.newVersion = versionUpdate(this.currVersion, mode) as string;
 			const tagVersion = `v${this.newVersion}`;
-			const success = await $(`npm version --no-git-tag-version ${mode}`);
+			const success = await $(`npm version ${mode}`);
 			if (success[0]) {
 				return {
+					autoGenerateTag: true,
 					success: true,
 					tag: tagVersion,
 					newVersion: this.newVersion,
@@ -61,6 +62,7 @@ export default class Node implements Language {
 			log.fatal(error);
 		}
 		return {
+			autoGenerateTag: false,
 			tag: "",
 			success: false,
 			newVersion: this.newVersion,

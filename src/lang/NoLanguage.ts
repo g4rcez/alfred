@@ -48,6 +48,7 @@ export default class NoLanguage implements Language {
 			const tagVersion = `v${this.newVersion}`;
 			await $(`npm version ${mode}`);
 			return {
+				autoGenerateTag: false,
 				success: true,
 				tag: tagVersion,
 				newVersion: this.newVersion,
@@ -56,6 +57,7 @@ export default class NoLanguage implements Language {
 		} catch (error) {
 			log.fatal(error);
 			return {
+				autoGenerateTag: false,
 				tag: "",
 				success: false,
 				newVersion: this.newVersion,

@@ -22,6 +22,7 @@
         "commander": "^2.20.0",
         "figlet": "^1.2.3",
         "github-api": "^3.2.2",
+        "hu3": "^1.0.2",
         "log-symbols": "^3.0.0",
         "nodemailer": "^6.3.0",
         "ora": "^3.4.0",

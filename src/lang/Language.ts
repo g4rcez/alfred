@@ -13,6 +13,7 @@ export type UpgradeReturn = {
 	success: boolean;
 	newVersion: string;
 	previousVersion: string;
+	autoGenerateTag: boolean;
 };
 
 export default interface Language {
