@@ -1,8 +1,8 @@
-#!/usr/bin/node
+#!/usr/bin/env node
 import cli from "commander";
-import Version from "./commands/Version";
-import Tags from "./commands/Tags";
 import Prettier from "./commands/Prettier";
+import Tags from "./commands/Tags";
+import Version from "./commands/Version";
 
 const program = new cli.Command();
 
@@ -17,7 +17,11 @@ program
 	.command("upgrade")
 	.alias("u")
 	.description("Update version of program and git tag version")
-	.option("-u, --update <release>", "Get the new version based on major | minor | patch | premajor | preminor | prepatch", "patch")
+	.option(
+		"-u, --update <release>",
+		"Get the new version based on major | minor | patch | premajor | preminor | prepatch",
+		"patch"
+	)
 	.option("-m, --msg <message>", "Message on commit")
 	.option("-n, --nolastcommit <boolean>", "Commit with last commit message", false)
 	.action(Version);

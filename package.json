@@ -1,13 +1,17 @@
 {
-    "name": "alfred",
+    "name": "hu3",
     "version": "3.0.52",
     "description": "",
-    "main": "./cli/index.js",
+    "main": "cli/index.js",
     "bin": {
-        "alfred": "./cli/index.js"
+        "hu3": "cli/index.js"
     },
+    "engines": {
+        "node": ">=8"
+      },
     "scripts": {
         "build": "tsc -p .",
+        "test": "node ./node_modules/hu3/cli/index.js",
         "prettier": "prettier --write \"{.,src/**}/*.{js,jsx,ts,tsx}\""
     },
     "keywords": [],
