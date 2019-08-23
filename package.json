@@ -1,6 +1,6 @@
 {
     "name": "hu3",
-    "version": "3.0.52",
+    "version": "0.0.4",
     "description": "",
     "main": "cli/index.js",
     "bin": {
@@ -8,7 +8,7 @@
     },
     "engines": {
         "node": ">=8"
-      },
+    },
     "scripts": {
         "build": "tsc -p .",
         "test": "node ./node_modules/hu3/cli/index.js",
@@ -36,10 +36,8 @@
         "signale": "^1.4.0"
     },
     "devDependencies": {
-        "@types/axios": "^0.14.0",
         "@types/node": "^12.6.2",
         "@types/nodemailer": "^6.2.0",
-        "@types/ora": "^3.2.0",
         "@types/signale": "^1.2.1",
         "nodemon": "^1.19.1",
         "npm-run-all": "^4.1.5",
